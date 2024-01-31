@@ -6,11 +6,11 @@ def parse_json_to_freemind(json_node, current_depth=0, max_depth=2):
     Recursively convert JSON node to FreeMind XML node, up to a certain depth.
     """
     node_element = ET.Element('node')
-    node_element.set('TEXT', json_node['t'])
+    node_element.set('TEXT', json_node['text'])
     
     # Only process children if the current depth is less than the maximum depth
-    if 'c' in json_node and current_depth < max_depth:
-        for child in json_node['c']:
+    if 'children' in json_node and current_depth < max_depth:
+        for child in json_node['children']:
             child_element = parse_json_to_freemind(child, current_depth + 1, max_depth)
             node_element.append(child_element)
     
@@ -34,4 +34,4 @@ def create_freemind(json_filepath, output_filepath, max_depth):
     tree.write(output_filepath, encoding='utf-8', xml_declaration=True)
 
 # 使用函数开始转换过程，指定最大层数为3
-create_freemind('json_data.json', 'freemind_diagram.mm', 2)
+create_freemind('json_data.json', 'freemind_diagram.mm', 100)
